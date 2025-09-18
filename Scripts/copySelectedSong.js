@@ -1,4 +1,8 @@
-export const copySelectedSong = (songData) => {
+import { getSongData } from "./getClickedSongData.js";
+
+
+export const copySelectedSong = () => {
+  const songData = getSongData();
   // console.log(songData)
   const selectedSongDiv = document.getElementById("selectedSongInfo");
   selectedSongDiv.innerHTML = `

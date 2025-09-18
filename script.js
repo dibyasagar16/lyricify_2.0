@@ -2,7 +2,7 @@ import { getAccessToken } from "./Scripts/findSong.js";
 import { getSongLists } from "./Scripts/findSong.js";
 import { findLrics } from "./Scripts/findLyrics.js";
 import { createCard } from "./Scripts/cardCreation.js";
-import { copySelectedSong } from "./Scripts/copySelectedSong.js";
+import { setSongData, copySongCard } from "./Scripts/getClickedSongData.js";
 
 // DOM elements
 const searchBtn = document.getElementById("searchBtn");
@@ -40,30 +40,36 @@ inputField.addEventListener("keydown", (e) => {
 
 clickedDiv.addEventListener("click", (e) => {
   const clickedSong = e.target.closest(".song-card");
-  // console.log(e.target.closest(".song-card"));
-
-  const songData = {
-    songName: clickedSong.querySelector(".song-name")?.textContent.trim() ?? "",
-    artist: clickedSong.querySelector(".artist-name")?.textContent.trim() ?? "",
-    duration:
-      clickedSong.querySelector(".song-duration")?.textContent.trim() ?? "",
-    album: clickedSong.querySelector(".album-name")?.textContent.trim() ?? "",
-    imgSrc: clickedSong.querySelector("img")?.src ?? "",
-  };
 
   if (clickedSong) {
-    const songName = clickedSong.querySelector(".song-name").textContent;
-    const artist = clickedSong.querySelector(".artist-name").textContent;
-    const albumName = clickedSong.querySelector(".album-name").textContent;
-    findLrics(songName, artist, albumName);
-    copySelectedSong(songData);
-  }
+    // console.log(songData)
+    const selectedSongDiv = document.getElementById("selectedSongInfo");
 
-  // console.log(songData);
+    //Geting the clicked song details here
+    const songData = {
+      songName:
+        clickedSong.querySelector(".song-name")?.textContent.trim() ?? "",
+      artist:
+        clickedSong.querySelector(".artist-name")?.textContent.trim() ?? "",
+      duration:
+        clickedSong.querySelector(".song-duration")?.textContent.trim() ?? "",
+      album: clickedSong.querySelector(".album-name")?.textContent.trim() ?? "",
+      imgSrc: clickedSong.querySelector("img")?.src ?? "",
+    };
+
+    //Getting Lyrics of the clicked song
+    findLrics(songData.songName, songData.artist, songData.albumName);
+    //Setting the clicked song details for global use
+    setSongData(songData);
+    // Settting the clicked song details in Lyrics part
+    copySongCard(selectedSongDiv);
+  }
 });
 
 continueBtn.addEventListener("click", () => {
   createCard();
+  const selectedSongDiv = document.getElementById("lyricsCardSongDetails");
+  copySongCard(selectedSongDiv);
 });
 
 //Function Calls for Card Cutomizations

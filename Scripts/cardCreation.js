@@ -1,11 +1,7 @@
-const makeCard = (selectedSong, lyricsLines) => {
+const target = document.getElementById("customization");
+
+const makeCard = (lyricsLines) => {
   // console.log(selectedSong);
-  let song = document.createElement("div");
-  song.className="song-card"
-  song.innerHTML = selectedSong.innerHTML;
-  let lyricsCardSongDetails = document.getElementById("lyricsCardSongDetails");
-  lyricsCardSongDetails.innerHTML = '';
-  lyricsCardSongDetails.appendChild(song);
 
   let cardLyricsDiv = document.getElementById("cardLyrics");
   cardLyricsDiv.innerHTML = "";
@@ -14,8 +10,6 @@ const makeCard = (selectedSong, lyricsLines) => {
     cardLyricsDiv.innerHTML += "<br>";
   });
 };
-
-const target = document.getElementById("customization");
 
 export const createCard = () => {
   target.classList.remove("hidden");
@@ -31,9 +25,6 @@ export const createCard = () => {
     return;
   }
 
-  //Get the Song details Here
-  const selectedSong = document.querySelector(".selected-song-info .selected-song");
-  console.log(selectedSong);
   //Send the lyrics to Create Card
   let finalSelectedLyrics = [];
 
@@ -42,5 +33,5 @@ export const createCard = () => {
     line.innerText = key.innerText;
     finalSelectedLyrics.push(line);
   });
-  makeCard(selectedSong, finalSelectedLyrics);
+  makeCard(finalSelectedLyrics);
 };
