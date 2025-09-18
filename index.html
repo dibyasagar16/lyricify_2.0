@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lyricify - Lyrics Card Generator</title>
     <link rel="stylesheet" href="style.css" />
+    <!-- api for download card -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   </head>
   <body>
     <!-- <header>
@@ -15,7 +17,7 @@
     </header> -->
 
     <!-- Notification -->
-    <div class="notification-container" id="notificationContainer"></div>
+    <div class="notification-container"></div>
 
     <!-- Hero Section -->
     <section id="hero" class="section hero">
@@ -43,7 +45,7 @@
       <div class="results-container">
         <div class="songs-list-container">
           <h2>Search Results</h2>
-          <div id="songsList" class="song-list">
+          <div id="songsList" class="songs-list">
             <!-- <div class="song-card">
               <img
                 src=""
@@ -61,6 +63,7 @@
         <div class="lyrics-display" id="lyricsDisplay">
           <div class="lyrics-header">
             <div class="selected-song-info" id="selectedSongInfo">
+              <p>Choose a song from the left to view lyrics</p>
               <!-- <div class="selected-song song-card">
                 <img
                   src="https://i.scdn.co/image/ab67616d0000b2737bb23ac6330733d95888e612"
@@ -77,13 +80,18 @@
             </div>
             <button class="continue-btn" id="continueBtn">Continue</button>
           </div>
-          <div class="lyrics-content" id="lyricsContent"></div>
+          <div class="lyrics-content" id="lyricsContent">
+            <!-- <div class="loader-container">
+              <div class="loader"></div>
+              <div class="loader-text">Loading...</div>
+            </div> -->
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Customization Section -->
-    <section id="customization" class="section customization  ">
+    <section id="customization" class="section customization hidden">
       <div class="customization-container">
         <div class="customization-panel">
           <h2>Customize Your Card</h2>
@@ -121,15 +129,18 @@
           </div>
           <div class="control-group">
             <label for="fontSize">Font Size</label>
-            <input type="range" id="fontSize" min="14" max="24" value="18" />
+            <input type="range" id="fontSize" min="10" max="30" value="20" />
           </div>
-          <button class="download-btn" id="downloadBtn">Download as JPG</button>
+          <div class="customization-buttons">
+            <button class="download-btn" id="downloadBtn">Download Card</button>
+            <button class="share-btn" id="shareBtn">Share Card</button>
+          </div>
         </div>
         <div class="card-preview">
           <h2>Preview</h2>
           <div class="lyrics-card" id="lyricsCard">
             <div class="lyricsCard-song-details" id="lyricsCardSongDetails">
-              <!-- <div class=" song-card">
+              <div class="song-card">
                 <img
                   src="https://i.scdn.co/image/ab67616d0000b2737bb23ac6330733d95888e612"
                   alt=""
@@ -141,13 +152,66 @@
                   <span class="album-name hidden">Still Here</span>
                   <span class="song-duration hidden">121846</span>
                 </div>
-              </div> -->
+              </div>
             </div>
-            <div class="card-lyrics" id="cardLyrics"></div>
+            <div class="card-lyrics" id="cardLyrics">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. <br />
+              Veritatis alias voluptatum facere iure voluptatibus ducimus
+              dolores, <br />
+              perspiciatis possimus quidem nostrum maiores cum veniam! <br />
+              Laborum expedita deserunt ex fugit ipsa fuga! <br />
+              Veritatis alias voluptatum facere iure voluptatibus ducimus
+              dolores, <br />
+              perspiciatis possimus quidem nostrum maiores cum veniam! <br />
+              Laborum expedita deserunt ex fugit ipsa fuga!
+            </div>
+            <div class="watermark">@Lyricify</div>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- Modal box starts Here -->
+    <!-- <div id="shareModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Share Your Card</h2>
+        <p class="modal-text">
+          Click an icon to share, then paste the image from your clipboard.
+        </p>
+        <div class="social-icons-container">
+          <a
+            href="https://twitter.com/intent/tweet"
+            target="_blank"
+            class="social-icon"
+          >
+            <div class="social-icon-box x"><span>X</span></div>
+            <div class="social-icon-text">X (Twitter)</div>
+          </a>
+          <a href="https://wa.me/" target="_blank" class="social-icon">
+            <div class="social-icon-box wa"><span>WA</span></div>
+            <div class="social-icon-text">WhatsApp</div>
+          </a>
+          <a
+            href="https://www.facebook.com/sharer/sharer.php"
+            target="_blank"
+            class="social-icon"
+          >
+            <div class="social-icon-box fb"><span>FB</span></div>
+            <div class="social-icon-text">Facebook</div>
+          </a>
+        </div>
+        <div class="modal-buttons">
+          <button id="downloadButton" class="action-button download-button">
+            Download Card
+          </button>
+          <button id="copyButton" class="action-button copy-button">
+            Copy Image
+          </button>
+        </div>
+        <p id="statusMessage" class="status-message"></p>
+      </div>
+    </div> -->
 
     <script type="module" src="script.js"></script>
   </body>

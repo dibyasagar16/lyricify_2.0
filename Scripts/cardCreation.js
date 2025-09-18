@@ -1,3 +1,5 @@
+import { showNotification } from "./showNotification.js";
+
 const target = document.getElementById("customization");
 
 const makeCard = (lyricsLines) => {
@@ -12,18 +14,20 @@ const makeCard = (lyricsLines) => {
 };
 
 export const createCard = () => {
+  // console.log(selectedSong);
+  const selectedLines = document.querySelectorAll(".selected-lyrics");
+  if (selectedLines.length <= 0) {
+    showNotification(
+      "warning",
+      "Select at least one line to get the lyrics card."
+    );
+    return;
+  }
+
   target.classList.remove("hidden");
   target.scrollIntoView({
     behavior: "smooth",
   });
-
-  // console.log(selectedSong);
-  const selectedLines = document.querySelectorAll(".selected-lyrics");
-  console.log(selectedLines);
-  if (selectedLines.length <= 0) {
-    alert("Select at least one line to continue");
-    return;
-  }
 
   //Send the lyrics to Create Card
   let finalSelectedLyrics = [];

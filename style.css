@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
 :root {
   /* Dark Theme Colors */
   --color-background-primary: #0d0c1d;
@@ -42,6 +44,7 @@ body {
   scroll-behavior: smooth;
 } */
 
+/* Notification Styles */
 .notification-container {
   position: fixed;
   top: 1rem;
@@ -49,29 +52,88 @@ body {
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  /* height: 5rem;
-  width: 10rem; */
-  background-color: rgb(220, 88, 88);
+  gap: 0.75rem;
+  width: 350px;
 }
 
 .notification {
+  position: relative;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-background-secondary);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateX(110%);
+  animation: slideIn 0.2s forwards, fadeOut 0.1s 2.5s forwards;
+  border: 1px solid #3c2f6d;
+}
+
+.notification-header {
   display: flex;
   align-items: center;
-  padding: 1rem;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  max-width: 320px;
-  animation: slideIn 0.5s forwards;
-  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.notification-icon {
+  font-size: 1.5rem;
+  margin-right: 0.75rem;
+}
+
+.notification-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.notification-content {
+  font-size: 0.875rem;
+  color: #ccc;
+}
+
+.notification-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.notification-close:hover {
+  color: #fff;
+}
+
+.notification.success .notification-icon {
+  color: #4ade80;
+}
+.notification.error .notification-icon {
+  color: #f87171;
+}
+.notification.info .notification-icon {
+  color: #60a5fa;
+}
+.notification.warning .notification-icon {
+  color: #facc15;
 }
 
 @keyframes slideIn {
   from {
-    transform: translateX(100%);
+    transform: translateX(110%);
   }
   to {
     transform: translateX(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
 
@@ -204,11 +266,13 @@ nav span {
   font-size: 1.8rem;
 }
 
-.song-list {
+.songs-list {
   /* Allow this container to grow and handle its own scrolling */
   flex-grow: 1;
   overflow-y: scroll;
   overflow-x: hidden;
+  justify-content: center;
+  align-items: center;
 }
 
 .song-card {
@@ -309,19 +373,15 @@ nav span {
   transform: translateY(-2px);
 }
 
-.continue-btn:disabled {
-  background: var(--color-gray-600);
-  cursor: not-allowed;
-  transform: none;
-}
-
 .lyrics-content {
-  line-height: 2;
+  line-height: 1.4;
   font-size: 1.1rem;
   color: var(--color-text-primary);
   /* Allow this container to grow and handle its own scrolling */
   flex-grow: 1;
   overflow-y: auto;
+  align-items: center;
+  justify-content: center;
 }
 
 .lyrics-line {
@@ -403,6 +463,7 @@ nav span {
   transition: border-color 0.3s ease;
   background: var(--color-background-primary);
   color: var(--color-text-primary);
+  cursor: pointer;
 }
 
 .control-group input:focus,
@@ -422,6 +483,13 @@ nav span {
   cursor: pointer;
 }
 
+.customization-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.share-btn,
 .download-btn {
   width: 100%;
   padding: 1rem;
@@ -434,11 +502,6 @@ nav span {
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 1rem;
-}
-
-.download-btn:hover {
-  background: var(--color-accent-purple-700);
-  transform: translateY(-2px);
 }
 
 .card-preview {
@@ -460,6 +523,7 @@ nav span {
 }
 
 .lyrics-card {
+  position: relative;
   width: 400px;
   max-width: 100%;
   /* aspect-ratio: 1; */
@@ -468,7 +532,6 @@ nav span {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
   text-align: start;
   transition: all 0.3s ease;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
@@ -477,10 +540,30 @@ nav span {
   overflow: hidden;
 }
 
+.lyrics-card .song-card {
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.lyrics-card .song-card .song-details p,
+.lyrics-card .song-card .song-details h3 {
+  color: black;
+}
+
 .card-lyrics {
   font-size: 1.2rem;
   /* margin-bottom: 1rem; */
   text-align: left;
+  display: flex;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.watermark {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  color: var(--color-text-secondary);
 }
 
 .card-lyrics p {
@@ -489,10 +572,6 @@ nav span {
 
 .hidden {
   display: none;
-}
-
-.lyrics-card {
-  aspect-ratio: 3/4;
 }
 
 /* Scrollbar Styling */
@@ -544,4 +623,175 @@ nav span {
   .lyrics-card {
     width: 300px;
   }
+}
+
+/* .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: none; 
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--color-background-secondary);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--color-border-gray);
+  padding: 24px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: var(--color-text-secondary);
+  font-size: 2em;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.close-button:hover {
+  color: white;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  font-size: 1.5em;
+  color: #e0e0e0;
+}
+
+.modal-text {
+  font-size: 0.9em;
+  color: #bbb;
+  margin-bottom: 20px;
+}
+
+.social-icons-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.social-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+  text-decoration: none;
+}
+
+.social-icon:hover {
+  transform: translateY(-5px);
+}
+
+.social-icon-box {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 8px;
+}
+
+.social-icon-box.x {
+  background-color: #000;
+}
+.social-icon-box.wa {
+  background-color: #25d366;
+}
+.social-icon-box.fb {
+  background-color: #1877f2;
+}
+
+.social-icon-text {
+  font-size: 0.8em;
+  color: #ccc;
+}
+
+.social-icon-box span {
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  width: 100%;
+}
+
+.action-button {
+  flex-grow: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 0.9em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, opacity 0.3s;
+}
+
+.download-button {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.download-button:hover {
+  background-color: #ccc;
+}
+
+.copy-button {
+  background-color: #3f1d8f;
+  color: #fff;
+}
+
+.copy-button:hover {
+  background-color: #33157a;
+}
+
+.status-message {
+  margin-top: 15px;
+  font-size: 0.9em;
+  color: #25d366;
+  min-height: 20px;
+} */
+
+.loader {
+  border: 7px solid var(--color-border-gray);
+  border-top: 7px solid var(--color-accent-purple-600); /* A vibrant green color */
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  animation: spin 1s linear infinite;
+}
+
+/* The spinning animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Optional text below the loader */
+.loader-text {
+  font-size: 18px;
+  color: #ffffff;
+  font-weight: 500;
 }

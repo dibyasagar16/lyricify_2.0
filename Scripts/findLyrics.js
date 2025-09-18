@@ -1,3 +1,5 @@
+import { showNotification } from "./showNotification.js";
+
 //Function to Find Lyrics of Clicked Song
 export const findLrics = async (songName, artist, albumName) => {
   const apiUrl = `https://lrclib.net/api/get?track_name=${encodeURIComponent(
@@ -7,7 +9,12 @@ export const findLrics = async (songName, artist, albumName) => {
   }`;
 
   let lyricDiv = document.getElementById("lyricsContent");
-  lyricDiv.innerHTML = "<br><h2>🎼Fetching the lyrics...</h2>";
+  lyricDiv.innerHTML = `
+      <div class="loader-container">
+          <div class="loader"></div>
+          <div class="loader-text">Loading...</div>
+      </div>`;
+  lyricDiv.style.display = "flex";
 
   try {
     const response = await fetch(apiUrl);
@@ -19,6 +26,7 @@ export const findLrics = async (songName, artist, albumName) => {
       let lines = lyricsResult.plainLyrics.split("\n");
       lyricDiv.innerHTML = ""; //Clear Before Inserting Lyrics
       let filteredLines = lines.filter((line) => line !== "");
+      lyricDiv.style.display = "block";
       filteredLines.forEach((line) => {
         let p = document.createElement("p");
         p.textContent = line;
@@ -35,18 +43,72 @@ export const findLrics = async (songName, artist, albumName) => {
             if (selectedLines.length < 6) {
               p.classList.add("selected-lyrics");
             } else {
-              alert("Cannot select more than 6 lines");
+              showNotification(
+                "info",
+                "Only six lines can be selected at a time."
+              );
               return;
             }
           }
         });
       });
     } else {
-      lyricDiv.innerHTML = "<p style='color:red;'>Lyrics not available.</p>";
+      showNotification("error", "Unable to find the lyrics for this gem.");
+      lyricDiv.style.display = "none";
+      return;
     }
   } catch (err) {
-    lyricDiv.innerHTML = "<p style='color:red;'>Lyrics not available.</p>";
+    showNotification("error", err);
   }
+
+  // fetch(apiUrl)
+  //   .then((response) => {
+  //     if (!response.ok) {
+  //       throw new Error(`Server error: ${response.status}`);
+  //     }
+  //     return response.json();
+  //   })
+  //   .then((lyricsResult) => {
+  //     if (lyricsResult && lyricsResult.plainLyrics) {
+  //       let lines = lyricsResult.plainLyrics.split("\n");
+  //       lyricDiv.innerHTML = ""; // Clear before inserting lyrics
+  //       let filteredLines = lines.filter((line) => line !== "");
+  //       lyricDiv.style.display = "block";
+
+  //       filteredLines.forEach((line) => {
+  //         let p = document.createElement("p");
+  //         p.textContent = line;
+  //         p.classList.add("lyrics-line");
+  //         lyricDiv.appendChild(p);
+
+  //         // Allow selecting lyric lines
+  //         p.addEventListener("click", () => {
+  //           const selectedLines = document.querySelectorAll(".selected-lyrics");
+
+  //           if (p.classList.contains("selected-lyrics")) {
+  //             // already selected → unselect
+  //             p.classList.remove("selected-lyrics");
+  //           } else {
+  //             // limit to 6 lines
+  //             if (selectedLines.length < 6) {
+  //               p.classList.add("selected-lyrics");
+  //             } else {
+  //               showNotification(
+  //                 "info",
+  //                 "Only six lines can be selected at a time."
+  //               );
+  //               return;
+  //             }
+  //           }
+  //         });
+  //       });
+  //     } else {
+  //       showNotification("error", "Unable to find the lyrics for this gem.");
+  //       lyricDiv.style.display = "none";
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     showNotification("error", err.message || "Something went wrong.");
+  //     lyricDiv.style.display = "none";
+  //   });
 };
-
-

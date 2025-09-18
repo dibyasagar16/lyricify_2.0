@@ -3,6 +3,8 @@ import { getSongLists } from "./Scripts/findSong.js";
 import { findLrics } from "./Scripts/findLyrics.js";
 import { createCard } from "./Scripts/cardCreation.js";
 import { setSongData, copySongCard } from "./Scripts/getClickedSongData.js";
+import { downloadCard } from "./Scripts/imageDownloader.js";
+import { shareCard } from "./Scripts/imageShare.js";
 
 // DOM elements
 const searchBtn = document.getElementById("searchBtn");
@@ -13,6 +15,8 @@ const bgColorInput = document.getElementById("bgColor");
 const textColorInput = document.getElementById("textColor");
 const fontFamilySelect = document.getElementById("fontFamily");
 const fontSizeInput = document.getElementById("fontSize");
+const downloadBtn = document.getElementById("downloadBtn");
+const shareBtn = document.getElementById("shareBtn");
 
 const updateCardStyle = () => {
   const bgColor = bgColorInput.value;
@@ -20,8 +24,8 @@ const updateCardStyle = () => {
   const fontFamily = fontFamilySelect.value;
   const fontSize = fontSizeInput.value + "px";
   lyricsCard.style.backgroundColor = bgColor;
-  lyricsCard.style.color = textColor;
-  lyricsCard.style.fontFamily = fontFamily;
+  cardLyrics.style.color = textColor;
+  cardLyrics.style.fontFamily = fontFamily;
   cardLyrics.style.fontSize = fontSize;
 };
 
@@ -72,8 +76,68 @@ continueBtn.addEventListener("click", () => {
   copySongCard(selectedSongDiv);
 });
 
+downloadBtn.addEventListener("click", () => {
+  const card = document.getElementById("lyricsCard");
+  downloadCard(card);
+});
+shareBtn.addEventListener("click", shareCard);
+
 //Function Calls for Card Cutomizations
 bgColorInput.addEventListener("input", updateCardStyle);
 textColorInput.addEventListener("input", updateCardStyle);
 fontFamilySelect.addEventListener("change", updateCardStyle);
 fontSizeInput.addEventListener("input", updateCardStyle);
+
+//Modal control code starts here
+// const closeButton = shareModal.querySelector(".close-button");
+// const downloadButton = document.getElementById("downloadButton");
+// const copyButton = document.getElementById("copyButton");
+// const statusMessage = document.getElementById("statusMessage");
+
+// let capturedImageBlob = null;
+// let isCopying = false;
+
+// const showModal = () => {
+//   shareModal.style.display = "flex";
+// };
+
+// const hideModal = () => {
+//   shareModal.style.display = "none";
+//   statusMessage.textContent = ""; // Clear status message
+// };
+
+// const setStatusMessage = (message, isError = false) => {
+//   statusMessage.textContent = message;
+//   statusMessage.style.color = isError ? "#FF6B6B" : "#25D366";
+// };
+
+// shareBtn.addEventListener("click", async () => {
+//   setStatusMessage("Generating image...");
+//   try {
+//     const canvas = await html2canvas(lyricsCard, {
+//       scale: 2,
+//       backgroundColor: "#1a1a2e",
+//     });
+
+//     canvas.toBlob((blob) => {
+//       capturedImageBlob = blob;
+//       showModal();
+//       setStatusMessage(""); // Clear message after success
+//     }, "image/png");
+//   } catch (error) {
+//     console.error("Error generating image:", error);
+//     setStatusMessage("Failed to generate image. Please try again.", true);
+//   }
+// });
+
+// closeButton.addEventListener("click", hideModal);
+// window.addEventListener("click", (event) => {
+//   if (event.target === shareModal) {
+//     hideModal();
+//   }
+// });
+
+// downloadBtn.addEventListener("click", () => {
+//   const card = document.getElementById("lyricsCard");
+//   downloadCard(card);
+// });

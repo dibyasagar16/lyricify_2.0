@@ -13,17 +13,25 @@ export const getAccessToken = async () => {
 
 //Function to find the Song from Input
 export const getSongLists = async () => {
-  const songResult = document.getElementById("songsList");
+  const songsList = document.getElementById("songsList");
   const songName = inputField.value.trim();
 
   const target = document.getElementById("searchResults");
 
   //Prevents API Call if field is empty
   if (!songName) {
-    showNotification("noSong");
+    showNotification("warning", "Input field cannot be empty!");
     return;
   }
-  songResult.innerHTML = "<br><h2>🎧 Your song is being fetched...</h2>";
+
+  songsList.style.display = "flex";
+
+  songsList.innerHTML = `
+      <div class="loader-container">
+          <div class="loader"></div>
+          <div class="loader-text">Loading...</div>
+      </div>
+  `;
 
   target.classList.remove("hidden");
 
@@ -46,7 +54,8 @@ export const getSongLists = async () => {
   const result = await response.json();
   // console.log(result);
 
-  songResult.innerHTML = ""; // Clear old results before showing new ones
+  songsList.innerHTML = ""; // Clear old results before showing new ones
+  songsList.style.display = "block";
 
   if (result.tracks && result.tracks.items.length > 0) {
     result.tracks.items.forEach((element) => {
@@ -67,11 +76,14 @@ export const getSongLists = async () => {
       <span class="album-name hidden">${element.album.name}</span>
       <span class="song-duration hidden">${element.duration_ms}</span>
               </div>`;
-      songResult.appendChild(songCard);
+      songsList.appendChild(songCard);
     });
     inputField.value = "";
   } else {
     // console.log("No Song Found");
-    songResult.innerHTML = `<p style="color: red; text-align:center;">No Song Found</p>`;
+    showNotification(
+      "error",
+      "Opps! Couldn't find that song. Try a different one."
+    );
   }
 };

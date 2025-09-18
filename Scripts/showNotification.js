@@ -1,38 +1,39 @@
-const notificationStyles = {
-  emptyField: {
-    title: "Empty",
-    message: "Input field cannot be empty.",
-    bg: "red",
+const notificationTypes = {
+  success: {
+    title: "Success!",
+    icon: "✓",
   },
-  noSong: {
-    title: "NoSong",
-    message: "Could not found the requested song.",
-    bg: "red",
+  error: {
+    title: "Error!",
+    icon: "✗",
   },
-  noLyrics: {
-    title: "NoLyrics",
-    message: "Lyrics not found. Try a different Song.",
-    bg: "red",
+  info: {
+    title: "Info",
+    icon: "ⓘ",
   },
-  noLines: {
-    title: "NoLines",
-    message: "Select atleast one line to continue.",
-    bg: "red",
+  warning: {
+    title: "Warning",
+    icon: "⚠",
   },
 };
 
-export const showNotification = (type) => {
-  const container = document.getElementById("notificationContainer");
-  const style = notificationStyles[type];
+const notificationContainer = document.querySelector(".notification-container");
+
+export const showNotification = (type, message) => {
   const notification = document.createElement("div");
-  // notification.classList.add("notification", style.bg);
-  const innerHTML = `
-                <div>
-                    <h4>${style.title}</h4>
-                    <p>${style.message}</p>
+  notification.classList.add("notification", type);
+  notification.innerHTML = `
+                <div class="notification-header">
+                    <span class="notification-icon">${notificationTypes[type].icon}</span>
+                    <span class="notification-title">${notificationTypes[type].title}</span>
                 </div>
+                <div class="notification-content">${message}</div>
+                <button class="notification-close" onclick="this.closest('.notification').remove()">&times;</button>
             `;
-  notification.innerHTML = innerHTML;
-  container.appendChild(notification);
-  setTimeout(() => notification.remove(), 5000);
+  notificationContainer.appendChild(notification);
+
+  // Hide after 3 seconds
+  setTimeout(() => {
+    notification.remove();
+  }, 2000);
 };
