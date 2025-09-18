@@ -228,7 +228,7 @@ nav span {
   margin: 0 1rem 0 0;
 }
 
-.song-card:hover {
+.hover-effect:hover {
   background: var(--color-background-primary);
 }
 
@@ -474,6 +474,7 @@ nav span {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
   background: var(--color-accent-purple-600);
   color: var(--color-text-primary);
+  overflow: hidden;
 }
 
 .card-lyrics {

@@ -52,7 +52,7 @@ export const getSongLists = async () => {
     result.tracks.items.forEach((element) => {
       // console.log(element);
       let songCard = document.createElement("div");
-      songCard.className = "song-card";
+      songCard.className = "song-card hover-effect";
       songCard.innerHTML = `
               <img
                 src="${element.album.images[0].url}"
