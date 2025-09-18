@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lyricify - Lyrics Card Generator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- <header>
+      <nav class="navbar">
+        <img src="./logo.png" alt="" srcset="" />
+        <div>Lyric<span>ify</span></div>
+      </nav>
+    </header> -->
+
+    <!-- Notification -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="section hero">
+      <div class="hero-content">
+        <h1>Lyrics Card Generator</h1>
+        <p>
+          Search for your favorite songs and create beautiful lyric cards to
+          share
+        </p>
+        <div class="search-container">
+          <input
+            autofocus
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="Enter song name or artist..."
+          />
+          <button id="searchBtn" class="search-btn">Search Songs</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search Results Section -->
+    <section id="searchResults" class="section search-results hidden">
+      <div class="results-container">
+        <div class="songs-list-container">
+          <h2>Search Results</h2>
+          <div id="songsList" class="song-list">
+            <!-- <div class="song-card">
+              <img
+                src=""
+                alt=""
+                style="background-color: aqua; border-radius: 10px"
+              />
+              <div class="song-details">
+                <h3>Song Name</h3>
+                <p>Artist</p>
+                <p>3:02</p>
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <div class="lyrics-display" id="lyricsDisplay">
+          <div class="lyrics-header">
+            <div class="selected-song-info" id="selectedSongInfo">
+              <!-- <div class="selected-song song-card">
+                <img
+                  src="https://i.scdn.co/image/ab67616d0000b2737bb23ac6330733d95888e612"
+                  alt=""
+                />
+                <div class="song-details">
+                  <h3 class="song-name">Fall Off (Interlude)</h3>
+                  <p class="artist-name">KR$NA</p>
+                  <p>2:01</p>
+                  <span class="album-name hidden">Still Here</span>
+                  <span class="song-duration hidden">121846</span>
+                </div>
+              </div> -->
+            </div>
+            <button class="continue-btn" id="continueBtn">Continue</button>
+          </div>
+          <div class="lyrics-content" id="lyricsContent"> </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Customization Section -->
+    <section id="customization" class="section customization hidden">
+      <div class="customization-container">
+        <div class="customization-panel">
+          <h2>Customize Your Card</h2>
+          <div class="control-group">
+            <label for="bgColor">Background Color</label>
+            <input
+              type="color"
+              id="bgColor"
+              class="color-input"
+              value="#9333ea"
+            />
+          </div>
+          <div class="control-group">
+            <label for="textColor">Text Color</label>
+            <input
+              type="color"
+              id="textColor"
+              class="color-input"
+              value="#ffffff"
+            />
+          </div>
+          <div class="control-group">
+            <label for="fontFamily">Font Style</label>
+            <select id="fontFamily">
+              <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+                Segoe UI
+              </option>
+              <option value="Georgia, serif">Georgia</option>
+              <option value="'Times New Roman', serif">Times New Roman</option>
+              <option value="Arial, sans-serif">Arial</option>
+              <option value="'Courier New', monospace">Courier New</option>
+              <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
+              <option value="Impact, sans-serif">Impact</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label for="fontSize">Font Size</label>
+            <input type="range" id="fontSize" min="14" max="24" value="18" />
+          </div>
+          <button class="download-btn" id="downloadBtn">Download as JPG</button>
+        </div>
+        <div class="card-preview">
+          <h2>Preview</h2>
+          <div class="lyrics-card" id="lyricsCard">
+            <div class="-lyricsCard-song-details">Song Details</div>
+            <div class="card-lyrics" id="cardLyrics">
+              Select some lyrics from the previous section to create your card
+              <br />
+              Select some lyrics from the previous section to create your card
+              <br />
+              Select some lyrics from the previous section to create your card
+              <br />
+              Select some lyrics from the previous section to create your card
+              <br />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
