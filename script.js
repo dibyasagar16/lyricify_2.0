@@ -5,6 +5,7 @@ import { createCard } from "./Scripts/cardCreation.js";
 import { setSongData, copySongCard } from "./Scripts/getClickedSongData.js";
 import { downloadCard } from "./Scripts/imageDownloader.js";
 import { shareCard } from "./Scripts/imageShare.js";
+import { setTheme } from "./Scripts/changeTheme.js";
 
 // DOM elements
 const searchBtn = document.getElementById("searchBtn");
@@ -17,6 +18,8 @@ const fontFamilySelect = document.getElementById("fontFamily");
 const fontSizeInput = document.getElementById("fontSize");
 const downloadBtn = document.getElementById("downloadBtn");
 const shareBtn = document.getElementById("shareBtn");
+const themeToggle = document.getElementById("themeToggle");
+const htmlElement = document.documentElement;
 
 const updateCardStyle = () => {
   const bgColor = bgColorInput.value;
@@ -87,6 +90,34 @@ bgColorInput.addEventListener("input", updateCardStyle);
 textColorInput.addEventListener("input", updateCardStyle);
 fontFamilySelect.addEventListener("change", updateCardStyle);
 fontSizeInput.addEventListener("input", updateCardStyle);
+
+//Code for theme toggle starts here
+// Check for saved theme preference on load
+window.addEventListener("DOMContentLoaded", () => {
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    setTheme(savedTheme);
+  } else {
+    // Default to dark theme if no preference saved
+    setTheme("dark");
+  }
+});
+
+// Event listener for theme toggle button
+if (themeToggle) {
+  // Check if themeToggle exists
+  themeToggle.addEventListener("click", () => {
+    console.log('Clicked')
+    const currentTheme = htmlElement.getAttribute("data-theme");
+    if (currentTheme === "light") {
+      console.log("switiching to Dark")
+      setTheme("dark");
+    } else {
+      console.log("Switching to Light")
+      setTheme("light");
+    }
+  });
+}
 
 //Modal control code starts here
 // const closeButton = shareModal.querySelector(".close-button");

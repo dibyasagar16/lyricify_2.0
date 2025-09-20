@@ -7,17 +7,52 @@
     <link rel="stylesheet" href="style.css" />
     <!-- api for download card -->
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <!-- cdn api link for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
-    <!-- <header>
+    <header>
       <nav class="navbar">
-        <img src="./logo.png" alt="" srcset="" />
         <div>Lyric<span>ify</span></div>
+        <div class="theme-toggle" id="themeToggle">
+          <i class="fas fa-sun sun-icon" id="sunIcon"></i>
+          <i class="fas fa-moon moon-icon" id="moonIcon"></i>
+        </div>
+        <!-- <div class="theme-toggle" id="themeToggle">
+          <button class="dark-theme-btn" id="darkThemeBtn">
+            <i class="fa-solid fa-moon" style="color: #ffffff"></i>
+          </button>
+          <button class="light-theme-btn" id="lightThemeBtn">
+            <i class="fa-solid fa-sun" style="color: #ffffff"></i>
+          </button>
+        </div> -->
       </nav>
-    </header> -->
+    </header>
 
     <!-- Notification -->
-    <div class="notification-container"></div>
+    <div class="notification-container">
+      <!-- <div class="notification">
+        <div class="notification-header">
+          <span class="notification-icon">icon</span>
+          <span class="notification-title"
+            >title</span
+          >
+        </div>
+        <div class="notification-content">message</div>
+        <button
+          class="notification-close"
+          
+        >
+          &times;
+        </button>
+      </div> -->
+    </div>
 
     <!-- Hero Section -->
     <section id="hero" class="section hero">
@@ -170,6 +205,10 @@
         </div>
       </div>
     </section>
+
+    <footer>
+      <p>Made with ❤️ @2025 Copyright Reserved</p>
+    </footer>
 
     <!-- Modal box starts Here -->
     <!-- <div id="shareModal" class="modal">

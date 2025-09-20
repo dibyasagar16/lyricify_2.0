@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-
 :root {
   /* Dark Theme Colors */
   --color-background-primary: #0d0c1d;
@@ -7,22 +5,19 @@
   --color-text-primary: #ffffff;
   --color-text-secondary: #4c4a63;
   --color-border-gray: #4c4a63;
-  --color-toggle-bg: var(--color-background-secondary);
-  --color-toggle-icon: var(--color-text-primary);
 
   /* Accent Colors */
   --color-accent-purple-600: #9333ea;
   --color-accent-purple-700: #7615cd;
-  --color-gray-700: #4c4a63;
-  --color-gray-600: #4c4a63;
-  --color-gray-400: #4c4a63;
 }
 
 [data-theme="light"] {
-  --color-backgound-primary: #ffffff;
-  --color-backgound-secondary: #d7d7d7;
-  --color-text-primary: #000000;
-  --color-text-secondary: #1f1f1f;
+  /* Light Theme Colors */
+  --color-background-primary: #f3f4f6;
+  --color-background-secondary: #e5e7eb;
+  --color-text-primary: #1f2937;
+  --color-text-secondary: #4b5563;
+  --color-border-gray: #d1d5db;
 }
 
 * {
@@ -38,6 +33,7 @@ body {
   background: var(--color-background-primary);
   color: var(--color-text-primary);
   position: relative;
+  transition: background 0.2s;
 }
 
 /* html {
@@ -47,7 +43,7 @@ body {
 /* Notification Styles */
 .notification-container {
   position: fixed;
-  top: 1rem;
+  top: 5rem;
   right: 1rem;
   z-index: 1000;
   display: flex;
@@ -61,11 +57,12 @@ body {
   padding: 0.5rem 1.25rem;
   border-radius: 0.5rem;
   background-color: var(--color-background-secondary);
+  color: var(--color-text-secondary);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
   transform: translateX(110%);
   animation: slideIn 0.2s forwards, fadeOut 0.1s 2.5s forwards;
-  border: 1px solid #3c2f6d;
+  border: 1px solid var(--color-border-gray);
 }
 
 .notification-header {
@@ -82,12 +79,12 @@ body {
 .notification-title {
   font-weight: 600;
   font-size: 1rem;
-  color: #fff;
+  color: var(--color-text-primary);
 }
 
 .notification-content {
   font-size: 0.875rem;
-  color: #ccc;
+  color: var(--color-text-secondary);
 }
 
 .notification-close {
@@ -137,13 +134,39 @@ body {
   }
 }
 
+header {
+  background: var(--color-background-secondary);
+  padding: 0 5rem;
+  transition: background 0.2s;
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  height: 10vh;
+}
+
+.theme-toggle {
+  font-size: 1.5rem;
+  border: 1px solid var(--color-border-gray);
+  padding: 0.4rem;
+  border-radius: 2rem;
+}
+
+.theme-toggle i {
+  margin: 0 0.2rem;
+  padding: 0 0.2rem;
+  cursor: pointer;
+}
+
+/* .sun-icon {
+  transform: translateX(2.5rem);
+} */
+
 nav {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   font-size: 2em;
   font-weight: bold;
-  background-color: var(--bg-app);
   color: var(--text-primary);
   height: 10vh;
 }
@@ -158,7 +181,7 @@ nav span {
 }
 
 .section {
-  min-height: 100vh;
+  min-height: 93vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -204,6 +227,7 @@ nav span {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   background: var(--color-background-secondary);
   color: var(--color-text-primary);
+  transition: background 0.2s;
 }
 
 .search-input::placeholder {
@@ -218,7 +242,7 @@ nav span {
   padding: 1rem 2rem;
   font-size: 1.1rem;
   background: var(--color-accent-purple-600);
-  color: var(--color-text-primary);
+  color: #ffffff;
   border: none;
   border-radius: 50px;
   cursor: pointer;
@@ -236,6 +260,7 @@ nav span {
 .search-results {
   background: var(--color-background-primary);
   padding: 4rem 2rem;
+  transition: backgorund 0.2s;
 }
 
 .results-container {
@@ -258,6 +283,7 @@ nav span {
   /* Use flexbox to handle content height and scrolling */
   display: flex;
   flex-direction: column;
+  transition: backgorund 0.2s;
 }
 
 .songs-list-container h2 {
@@ -329,6 +355,7 @@ nav span {
   /* Use flexbox to handle content height and scrolling */
   display: flex;
   flex-direction: column;
+  transition: backgorund 0.2s;
 }
 
 .lyrics-header {
@@ -336,7 +363,7 @@ nav span {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.5rem;
-  padding-bottom: 1rem;
+  /* padding-bottom: 1rem; */
   border-bottom: 2px solid var(--color-border-gray);
 }
 
@@ -349,6 +376,10 @@ nav span {
   margin-right: 1rem;
 }
 
+.lyrics-header .selected-song-info .song-card {
+  padding: 0;
+}
+
 .selected-song-info h3 {
   color: var(--color-text-primary);
 }
@@ -358,13 +389,14 @@ nav span {
 }
 
 .continue-btn {
-  padding: 0.8rem 1.5rem;
+  padding: 0.8rem 1rem;
   background: var(--color-accent-purple-600);
-  color: var(--color-text-primary);
+  color: #ffffff;
   border: none;
   border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
+  font-size: 1rem;
   transition: all 0.3s ease;
 }
 
@@ -416,6 +448,7 @@ nav span {
 .customization {
   background: var(--color-background-primary);
   padding: 4rem 2rem;
+  transition: backgorund 0.2s;
 }
 
 .customization-container {
@@ -434,6 +467,7 @@ nav span {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
   border: 1px solid var(--color-border-gray);
   height: 40rem;
+  transition: backgorund 0.2s;
 }
 
 .customization-panel h2 {
@@ -464,6 +498,7 @@ nav span {
   background: var(--color-background-primary);
   color: var(--color-text-primary);
   cursor: pointer;
+  transition: backgorund 0.2s;
 }
 
 .control-group input:focus,
@@ -475,6 +510,7 @@ nav span {
 .control-group select option {
   background: var(--color-background-primary);
   color: var(--color-text-primary);
+  transition: backgorund 0.2s;
 }
 
 .color-input {
@@ -494,13 +530,13 @@ nav span {
   width: 100%;
   padding: 1rem;
   background: var(--color-accent-purple-600);
-  color: var(--color-text-primary);
+  color: #ffffff;
   border: none;
   border-radius: 10px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   margin-top: 1rem;
 }
 
@@ -514,6 +550,7 @@ nav span {
   align-items: center;
   border: 1px solid var(--color-border-gray);
   height: 40rem;
+  transition: backgorund 0.2s;
 }
 
 .card-preview h2 {
@@ -533,7 +570,7 @@ nav span {
   flex-direction: column;
   justify-content: flex-start;
   text-align: start;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
   background: var(--color-accent-purple-600);
   color: var(--color-text-primary);
@@ -590,6 +627,15 @@ nav span {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-accent-purple-700);
+}
+
+footer {
+  background: var(--color-background-secondary);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
