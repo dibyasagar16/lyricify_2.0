@@ -8,6 +8,7 @@ import { shareCard } from "./Scripts/imageShare.js";
 import { setTheme } from "./Scripts/changeTheme.js";
 
 // DOM elements
+const logo = document.getElementById("logo");
 const searchBtn = document.getElementById("searchBtn");
 const clickedDiv = document.getElementById("songsList");
 const inputField = document.getElementById("searchInput");
@@ -33,17 +34,25 @@ const updateCardStyle = () => {
 };
 
 //Fucntions to Call On Page Load
-updateCardStyle();
+// updateCardStyle();
 getAccessToken();
 
 //Event Handlers
-searchBtn.addEventListener("click", getSongLists);
+
+logo.addEventListener("click", ()=> {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  })
+})
+
+searchBtn.addEventListener("click", getSongLists); //To search for songs (When Search button is clicked)
 
 inputField.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     getSongLists();
   }
-}); //Enter in Input Field
+}); //To search for songs (when Enter is pressed)
 
 clickedDiv.addEventListener("click", (e) => {
   const clickedSong = e.target.closest(".song-card");
@@ -71,25 +80,25 @@ clickedDiv.addEventListener("click", (e) => {
     // Settting the clicked song details in Lyrics part
     copySongCard(selectedSongDiv);
   }
-});
+}); //To search for lyrics of a selected song from the lyrics
 
 continueBtn.addEventListener("click", () => {
   createCard();
   const selectedSongDiv = document.getElementById("lyricsCardSongDetails");
   copySongCard(selectedSongDiv);
-});
-
-downloadBtn.addEventListener("click", () => {
-  const card = document.getElementById("lyricsCard");
-  downloadCard(card);
-});
-shareBtn.addEventListener("click", shareCard);
+}); //Create a card of the selected lines from lyrics
 
 //Function Calls for Card Cutomizations
 bgColorInput.addEventListener("input", updateCardStyle);
 textColorInput.addEventListener("input", updateCardStyle);
 fontFamilySelect.addEventListener("change", updateCardStyle);
 fontSizeInput.addEventListener("input", updateCardStyle);
+
+downloadBtn.addEventListener("click", () => {
+  const card = document.getElementById("lyricsCard");
+  downloadCard(card);
+});
+shareBtn.addEventListener("click", shareCard);
 
 //Code for theme toggle starts here
 // Check for saved theme preference on load
@@ -107,13 +116,13 @@ window.addEventListener("DOMContentLoaded", () => {
 if (themeToggle) {
   // Check if themeToggle exists
   themeToggle.addEventListener("click", () => {
-    console.log('Clicked')
+    console.log("Clicked");
     const currentTheme = htmlElement.getAttribute("data-theme");
     if (currentTheme === "light") {
-      console.log("switiching to Dark")
+      console.log("switiching to Dark");
       setTheme("dark");
     } else {
-      console.log("Switching to Light")
+      console.log("Switching to Light");
       setTheme("light");
     }
   });
