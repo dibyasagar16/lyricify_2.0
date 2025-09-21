@@ -37,15 +37,16 @@ pipeline {
                 echo "Logging in to ECR and pushing the image..."
                 // Use the 'aws-credentials' we set up in Jenkins
                 withAWS(region: AWS_REGION, credentials: 'aws-credentials') {
-                    // Get login command from ECR and execute it
-                    def login = ecr.getLogin()
-                    sh(login)
+                    script {
+                        // Login to ECR
+                        ecrLogin()
 
-                    // Push the image with the build number tag
-                    dockerImage.push()
+                        // Push the image with the build number tag
+                        dockerImage.push("${env.BUILD_NUMBER}")
 
-                    // Also push it with the 'latest' tag for easy reference
-                    dockerImage.push('latest')
+                        // Also push it with the 'latest' tag
+                        dockerImage.push('latest')
+                    }
                 }
             }
         }
