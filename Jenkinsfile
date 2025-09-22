@@ -61,12 +61,12 @@ pipeline {
                         def imageUrl = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:latest"
 
                         // Use safe shell expansion for secrets
-                        sh '''
+                        sh """
                             docker stop ${CONTAINER_NAME} || true
                             docker rm ${CONTAINER_NAME} || true
                             docker pull ${imageUrl}
                             docker run -d --name ${CONTAINER_NAME} -p 80:80 --env-file $ENV_FILE ${imageUrl}
-                        '''
+                        """
                     }
                 }
             }
