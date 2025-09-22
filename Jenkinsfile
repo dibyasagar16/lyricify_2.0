@@ -50,26 +50,26 @@ pipeline {
         }
 
         stage('Deploy with Docker Compose') {
-    steps {
-        echo "Deploying using Docker Compose..."
-        withCredentials([file(credentialsId: 'lyricify-env-file', variable: 'ENV_FILE')]) {
-            script {
-                sh """
-                cd /opt/monitoring
+            steps {
+                echo "Deploying using Docker Compose..."
+                withCredentials([file(credentialsId: 'lyricify-env-file', variable: 'ENV_FILE')]) {
+                    script {
+                        // Use the credential file path directly
+                        sh """
+                            cd /opt/monitoring
 
-                # Pull latest image
-                docker compose --env-file \$ENV_FILE pull lyricify-web
+                            # Pull latest image
+                            docker compose --env-file \$ENV_FILE pull lyricify-web
 
-                # Stop and remove existing containers
-                docker compose --env-file \$ENV_FILE down
+                            # Stop and remove existing container if running
+                            docker compose --env-file \$ENV_FILE down
 
-                # Start container in detached mode
-                docker compose --env-file \$ENV_FILE up -d lyricify-web
-                """
+                            # Start container in detached mode
+                            docker compose --env-file \$ENV_FILE up -d lyricify-web
+                        """
+                    }
+                }
             }
         }
-    }
-}
-
     }
 }
