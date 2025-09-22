@@ -39,12 +39,12 @@ getAccessToken();
 
 //Event Handlers
 
-logo.addEventListener("click", ()=> {
+logo.addEventListener("click", () => {
   window.scrollTo({
     top: 0,
-    behavior: "smooth"
-  })
-})
+    behavior: "smooth",
+  });
+});
 
 searchBtn.addEventListener("click", getSongLists); //To search for songs (When Search button is clicked)
 
@@ -116,13 +116,10 @@ window.addEventListener("DOMContentLoaded", () => {
 if (themeToggle) {
   // Check if themeToggle exists
   themeToggle.addEventListener("click", () => {
-    // console.log("Clicked");
     const currentTheme = htmlElement.getAttribute("data-theme");
     if (currentTheme === "light") {
-      // console.log("switiching to Dark");
       setTheme("dark");
     } else {
-      // console.log("Switching to Light");
       setTheme("light");
     }
   });
