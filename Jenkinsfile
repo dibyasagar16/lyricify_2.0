@@ -1,3 +1,5 @@
+def dockerImage  // Declare it once globally
+
 pipeline {
     agent any
 
@@ -6,13 +8,9 @@ pipeline {
     }
 
     environment {
-        // REPLACE with your AWS Region, e.g., 'us-east-1'
         AWS_REGION = 'us-east-1'
-        // REPLACE with your AWS Account ID (the 12-digit number)
         AWS_ACCOUNT_ID = '245013470166'
-        // REPLACE with the name you gave your ECR repository
         ECR_REPOSITORY_NAME = 'lyricify'
-        // The name we'll give the running container
         CONTAINER_NAME = 'lyricify-web'
     }
 
@@ -20,12 +18,11 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 echo 'Cloning the repository...'
-                // This will automatically clone the repo linked to the pipeline
                 checkout scm
             }
         }
 
-       stage('Build Docker Image') {
+        stage('Build Docker Image') {
             steps {
                 echo "Building the Docker image..."
                 script {
@@ -38,43 +35,34 @@ pipeline {
         stage('Push Image to AWS ECR') {
             steps {
                 echo "Logging in to ECR and pushing the image..."
-                // Use the 'aws-credentials' we set up in Jenkins
                 withAWS(region: AWS_REGION, credentials: 'aws-credentials') {
                     script {
-                        // Login to ECR
-                        ecrLogin()
+                        // Login to ECR (make sure this runs as a shell command)
+                        sh ecrLogin()
 
-                        // Push the image with the build number tag
+                        // Push the image with build number tag
                         dockerImage.push()
 
-                        // Also push it with the 'latest' tag
+                        // Push the image with latest tag
                         dockerImage.push('latest')
                     }
                 }
             }
         }
 
-       stage('Deploy on EC2') {
+        stage('Deploy on EC2') {
             steps {
                 echo "Deploying the new container with secrets..."
-                    
-                // This block securely loads your secret file.
-                // The 'credentialId' must match the ID you created in Jenkins.
-                // 'variable' is the name of the environment variable that will hold the path to the temp file.
                 withCredentials([file(credentialsId: 'lyricify-env-file', variable: 'ENV_FILE')]) {
                     script {
                         def imageUrl = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:latest"
-                            
-                        // We modify the 'docker run' command here
+
                         sh """
                             docker stop ${CONTAINER_NAME} || true
                             docker rm ${CONTAINER_NAME} || true
                             docker pull ${imageUrl}
-
-                            # The --env-file flag tells Docker to load all variables from our secret file
-                            # Jenkins makes the secret file available at the path stored in the $ENV_FILE variable
                             docker run -d --name ${CONTAINER_NAME} -p 80:80 --env-file ${ENV_FILE} ${imageUrl}
-                            """
+                        """
                     }
                 }
             }
