@@ -116,13 +116,13 @@ window.addEventListener("DOMContentLoaded", () => {
 if (themeToggle) {
   // Check if themeToggle exists
   themeToggle.addEventListener("click", () => {
-    console.log("Clicked");
+    // console.log("Clicked");
     const currentTheme = htmlElement.getAttribute("data-theme");
     if (currentTheme === "light") {
-      console.log("switiching to Dark");
+      // console.log("switiching to Dark");
       setTheme("dark");
     } else {
-      console.log("Switching to Light");
+      // console.log("Switching to Light");
       setTheme("light");
     }
   });
