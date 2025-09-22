@@ -11,7 +11,8 @@ pipeline {
         AWS_REGION = 'us-east-1'
         AWS_ACCOUNT_ID = '245013470166'
         ECR_REPOSITORY_NAME = 'lyricify'
-        CONTAINER_NAME = 'lyricify-web'
+        COMPOSE_PROJECT_DIR = '/opt/monitoring'  // Path to your docker-compose.yml
+        SERVICE_NAME = 'lyricify-web'
     }
 
     stages {
@@ -24,9 +25,8 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                echo "Building the Docker image..."
+                echo "Building Docker image..."
                 script {
-                    // Tag the image with AWS ECR URL and build number
                     def imageTag = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:${env.BUILD_NUMBER}"
                     dockerImage = docker.build(imageTag)
                 }
@@ -38,13 +38,10 @@ pipeline {
                 echo "Logging in to ECR and pushing the image..."
                 withAWS(region: AWS_REGION, credentials: 'aws-credentials') {
                     script {
-                        // Secure login to ECR
                         sh """
-                            aws ecr get-login-password --region ${AWS_REGION} \
-                            | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+                        aws ecr get-login-password --region ${AWS_REGION} \
+                        | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
                         """
-
-                        // Push images
                         dockerImage.push()
                         dockerImage.push('latest')
                     }
@@ -52,20 +49,22 @@ pipeline {
             }
         }
 
-        stage('Deploy on EC2') {
+        stage('Deploy with Docker Compose') {
             steps {
-                echo "Deploying the new container with secrets..."
+                echo "Deploying using Docker Compose..."
                 withCredentials([file(credentialsId: 'lyricify-env-file', variable: 'ENV_FILE')]) {
                     script {
-                        // Image URL
-                        def imageUrl = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:latest"
-
-                        // Use safe shell expansion for secrets
                         sh """
-                            docker stop ${CONTAINER_NAME} || true
-                            docker rm ${CONTAINER_NAME} || true
-                            docker pull ${imageUrl}
-                            docker run -d --name ${CONTAINER_NAME} -p 80:80 --env-file $ENV_FILE ${imageUrl}
+                        cd ${COMPOSE_PROJECT_DIR}
+
+                        # Update the docker-compose.yml image tag
+                        docker compose pull ${SERVICE_NAME}
+
+                        # Export environment file for compose
+                        export ENV_FILE=${ENV_FILE}
+
+                        # Start or update containers
+                        docker compose up -d ${SERVICE_NAME}
                         """
                     }
                 }
@@ -73,6 +72,3 @@ pipeline {
         }
     }
 }
-
-
-
