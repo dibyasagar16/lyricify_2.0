@@ -54,17 +54,23 @@ pipeline {
                 echo "Deploying using Docker Compose..."
                 withCredentials([file(credentialsId: 'lyricify-env-file', variable: 'ENV_FILE')]) {
                     script {
+                        // Create a temp copy of the env file
                         sh """
-                        cd ${COMPOSE_PROJECT_DIR}
+                        TMP_ENV=/tmp/lyricify.env
+                        cp \$ENV_FILE \$TMP_ENV
 
-                        # Copy the Jenkins-provided env file to the compose directory
-                        cp \$ENV_FILE /tmp/lyricify.env
+                        # Go to the docker-compose directory
+                        cd /opt/monitoring
 
-                        # Pull the latest image for the app
-                        docker compose --env-file /tmp/lyricify.env pull ${SERVICE_NAME}
+                        # Pull latest image
+                        docker compose --env-file \$TMP_ENV pull lyricify-web
 
-                        # Start or update the app container
-                        docker compose --env-file /tmp/lyricify.env up -d ${SERVICE_NAME}
+                        # Stop existing container (if running)
+                        docker compose --env-file \$TMP_ENV stop lyricify-web || true
+                        docker compose --env-file \$TMP_ENV rm -f lyricify-web || true
+
+                        # Start container in detached mode
+                        docker compose --env-file \$TMP_ENV up -d lyricify-web
                         """
                     }
                 }
