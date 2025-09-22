@@ -25,14 +25,11 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+       stage('Build Docker Image') {
             steps {
                 echo "Building the Docker image..."
-                // The full ECR path for the image
                 script {
-
-                    def = imageTag = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:${env.BUILD_NUMBER}"
-                    // We use the build number from Jenkins to tag each image uniquely
+                    def imageTag = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:${env.BUILD_NUMBER}"
                     dockerImage = docker.build(imageTag)
                 }
             }
