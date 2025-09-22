@@ -58,13 +58,13 @@ pipeline {
                         cd ${COMPOSE_PROJECT_DIR}
 
                         # Copy the Jenkins-provided env file to the compose directory
-                        cp \$ENV_FILE ./lyricify.env
+                        cp \$ENV_FILE /tmp/lyricify.env
 
                         # Pull the latest image for the app
-                        docker compose pull ${SERVICE_NAME}
+                        docker compose --env-file /tmp/lyricify.env pull ${SERVICE_NAME}
 
                         # Start or update the app container
-                        docker compose up -d ${SERVICE_NAME}
+                        docker compose --env-file /tmp/lyricify.env up -d ${SERVICE_NAME}
                         """
                     }
                 }
