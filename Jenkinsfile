@@ -50,32 +50,28 @@ pipeline {
         }
 
         stage('Deploy with Docker Compose') {
-            steps {
-                echo "Deploying using Docker Compose..."
-                withCredentials([file(credentialsId: 'lyricify-env-file', variable: 'ENV_FILE')]) {
-                    script {
-                        // Create a temp copy of the env file
-                        sh """
-                        TMP_ENV=/tmp/lyricify.env
-                        cp \$ENV_FILE \$TMP_ENV
+    steps {
+        echo "Deploying using Docker Compose..."
+        withCredentials([file(credentialsId: 'lyricify-env-file', variable: 'ENV_FILE')]) {
+            script {
+                // Use the credential file path directly
+                sh """
+                cd /opt/monitoring
 
-                        # Go to the docker-compose directory
-                        cd /opt/monitoring
+                # Pull latest image
+                docker compose --env-file \$ENV_FILE pull lyricify-web
 
-                        # Pull latest image
-                        docker compose --env-file \$TMP_ENV pull lyricify-web
+                # Stop and remove existing container if running
+                docker compose --env-file \$ENV_FILE down
 
-                        # Stop existing container (if running)
-                        docker compose --env-file \$TMP_ENV stop lyricify-web || true
-                        docker compose --env-file \$TMP_ENV rm -f lyricify-web || true
-
-                        # Start container in detached mode
-                        docker compose --env-file \$TMP_ENV up -d lyricify-web
-                        """
-                    }
-                }
+                # Start container in detached mode
+                docker compose --env-file \$ENV_FILE up -d lyricify-web
+                """
             }
         }
+    }
+}
+
 
     }
 }
