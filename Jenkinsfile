@@ -30,8 +30,10 @@ pipeline {
                 echo "Building the Docker image..."
                 // The full ECR path for the image
                 script {
+
+                    def = imageTag = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:${env.BUILD_NUMBER}"
                     // We use the build number from Jenkins to tag each image uniquely
-                    dockerImage = docker.build("${ECR_REPOSITORY_NAME}:${env.BUILD_NUMBER}")
+                    dockerImage = docker.build(imageTag)
                 }
             }
         }
@@ -46,7 +48,7 @@ pipeline {
                         ecrLogin()
 
                         // Push the image with the build number tag
-                        dockerImage.push("${env.BUILD_NUMBER}")
+                        dockerImage.push()
 
                         // Also push it with the 'latest' tag
                         dockerImage.push('latest')
