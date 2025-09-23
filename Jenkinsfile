@@ -5,7 +5,7 @@ pipeline {
     AWS_REGION          = 'us-east-1'
     AWS_ACCOUNT_ID      = '245013470166'
     ECR_REPOSITORY_NAME = 'lyricify'
-    COMPOSE_PROJECT_DIR = '/opt/monitoring'
+    COMPOSE_PROJECT_DIR = '/var/lib/jenkins/monitoring'
     SERVICE_NAME        = 'lyricify-web'
   }
 
@@ -55,8 +55,8 @@ pipeline {
             echo "Deplyoing monitoring configs to the server..."
             sh """
                 mkdir -p ${COMPOSE_PROJECT_DIR}
-                cp docker-compose.yml ${COMPOSE_PROJECT_DIR}
-                cp prometheus.yml ${COMPOSE_PROJECT_DIR}
+                cp docker-compose.yml ${COMPOSE_PROJECT_DIR}/
+                cp prometheus.yml ${COMPOSE_PROJECT_DIR}/
             """
         }
     }
