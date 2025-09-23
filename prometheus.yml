@@ -17,6 +17,6 @@ scrape_configs:
 # cAdvisor metrics (container-level metrics)
 - job_name: "cadvisor"
   static_configs:
-  - targets: [ "cadvisor:8081" ]
+  - targets: [ "cadvisor:8080" ]
     labels:
       nodename: "ec2-server"
