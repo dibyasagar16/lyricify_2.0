@@ -50,6 +50,17 @@ pipeline {
       }
     }
 
+    stage('Deploy Configs') {
+        steps {
+            echo "Deplyoing monitoring configs to the server..."
+            sh """
+                mkdir -p ${COMPOSE_PROJECT_DIR}
+                cp docker-compose.yml ${COMPOSE_PROJECT_DIR}
+                cp prometheus.yml ${COMPOSE_PROJECT_DIR}
+            """
+        }
+    }
+
     stage('Deploy with Docker Compose') {
       steps {
         echo "Deploying all services with Docker Compose..."

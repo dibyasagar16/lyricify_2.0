@@ -1,0 +1,54 @@
+services:
+  # Website (PHP + Apache)
+  lyricify-web:
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/lyricify:latest
+    container_name: main-website
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    env_file:
+      - ${ENV_FILE} # Jenkins will inject secrets via .env file
+
+  # Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: promethu-scrape
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+
+  # Grafana
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana-gui
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=ChangeMeNow123
+    volumes:
+      - grafana-data:/var/lib/grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+
+  # Node Exporter
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    privileged: true
+    security_opt:
+      - apparmor:unconfined
+    command:
+      - --path.procfs=/host/proc
+      - --path.sysfs=/host/sys
+      - --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($|/)
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    ports:
+      - "9100:9100"
+
+volumes:
+  grafana-data:
