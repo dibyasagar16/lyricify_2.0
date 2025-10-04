@@ -178,11 +178,11 @@ You now have ready-made dashboards for:
 
 #### 🖥️ EC2 Host Metrics (Node Exporter)
 
-![Node Exporter Dashboard](docs/Grafana1.jpeg.jpeg)
+![Node Exporter Dashboard](docs/Grafana1.jpeg.)
 
 #### 📦 Container Metrics (cAdvisor)
 
-![cAdvisor Dashboard](docs/Grafana2.jpeg.jpeg)
+![cAdvisor Dashboard](docs/Grafana2.jpeg.)
 
 ## 📜 License
 
