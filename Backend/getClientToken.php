@@ -1,6 +1,4 @@
 <?php
-// $client_id = '9e1a0aa17b6f4e059df6bd99b412ef3b';
-// $client_secret = '8ee3c0d626ab4c198bbd89c46a50b1ff';
 
 require_once __DIR__ . "/envLoader.php";
 
@@ -25,7 +23,7 @@ curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=client_credentials');
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Authorization: Basic ' . $auth,
-    'Content-Type: application/x-www-form-urlencoded'   
+    'Content-Type: application/x-www-form-urlencoded'
 ]);
 
 $response = curl_exec($ch);
